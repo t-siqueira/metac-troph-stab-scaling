@@ -17,7 +17,3 @@ This is a collaborative effort and not all authors are allowed to share their ra
 Thus, here, instead of starting the analyses with raw data, we start with data that has been generated with the code: 01_Siqueira_etal_dataprep_stability_metrics.R (available under request, together with the full set of data here https://zenodo.org/record/6591419)
 
 These data include variability and synchrony components estimated using the methods described in Wang et al. (2019 Ecography; doi/10.1111/ecog.04290), diversity metrics (alpha and gamma diversity), and some variables describing the data. 
-
-# renv environment
-
-This repository uses [_renv_ package](https://rstudio.github.io/renv/) to improve reproducibility. It contains the **renv** folder with the R library with all the packages used at the current version of publication.
