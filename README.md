@@ -30,3 +30,6 @@ renv::init() is used to prepare a lockfile that records the exact versions of R 
 Anyone who wants to reproduce the results described in the preprint can just download the whole R project (that incluses code and data) and run codes from 00 to 05. 
 
 The renv folder is compressed here. One needs extract the renv folder within the same folder as the R project.
+
+Alternatevely, I am making the whole R project folder (with everything needed to reproduce the results) available as a compressed file:
+Stab_R_project_full.zip
