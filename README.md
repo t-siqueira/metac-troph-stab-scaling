@@ -17,8 +17,7 @@ and using the data available in the **Input_data** folder.
 
 This is a collaborative effort and not all authors are allowed to share their raw data. For example, one data set (LEPAS) was not made available due to data sharing policies of The Ohio Division of Wildlife (ODOW). The orginal raw data include the abundance (individual counts, biomass, coverage area) of a given taxon, at a given site, in a given year. See details here https://ecoevorxiv.org/mpf5x
 
-Thus, here, instead of starting the analyses with raw data, we start with data that has been generated with the code: 01_Dataprep_stability_metrics.R (available under request, together with the full set of data here https://zenodo.org/record/6591419)
-
+Thus, here, instead of starting the analyses with raw data, we start with data that has been generated with the code: 01_Dataprep_stability_metrics.R 
 These data include variability and synchrony components estimated using the methods described in Wang et al. (2019 Ecography; doi/10.1111/ecog.04290), diversity metrics (alpha and gamma diversity), and some variables describing the data. 
 
 # Reproducibility
