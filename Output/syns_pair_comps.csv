@@ -1,0 +1,13 @@
+term,.y.,group1,group2,df,statistic,p,p.adj,p.adj.signif,part
+New_tr_g,log(Value_part),Producers,Primary,45,-2.55697251358047,0.0140013475177916,0.0420040425533748,*,phi_S2C_L
+New_tr_g,log(Value_part),Producers,Secondary,45,-3.71622913505301,0.000557015596505461,0.00254488191494529,**,phi_S2C_L
+New_tr_g,log(Value_part),Producers,Tertiary,45,-5.20159755376221,4.68808757659094e-06,2.81285254595457e-05,****,phi_S2C_L
+New_tr_g,log(Value_part),Primary,Secondary,45,-1.55081379309328,0.127951529131219,0.127951529131219,ns,phi_S2C_L
+New_tr_g,log(Value_part),Primary,Tertiary,45,-3.74603645596299,0.000508976382989057,0.00254488191494529,**,phi_S2C_L
+New_tr_g,log(Value_part),Secondary,Tertiary,45,-2.49677385553853,0.0162609917425529,0.0420040425533748,*,phi_S2C_L
+New_tr_g,log(Value_part),Producers,Primary,45,-0.398663358803186,0.69202671934785,1,ns,phi_C_L2R
+New_tr_g,log(Value_part),Producers,Secondary,45,1.61244642505812,0.113857085174141,0.446730795748534,ns,phi_C_L2R
+New_tr_g,log(Value_part),Producers,Tertiary,45,1.62249908852585,0.111682698937134,0.446730795748534,ns,phi_C_L2R
+New_tr_g,log(Value_part),Primary,Secondary,45,3.00925116736291,0.004280046576182,0.025680279457092,*,phi_C_L2R
+New_tr_g,log(Value_part),Primary,Tertiary,45,2.95172876790522,0.00500474204540239,0.025680279457092,*,phi_C_L2R
+New_tr_g,log(Value_part),Secondary,Tertiary,45,0.0621217321937345,0.950740997481672,1,ns,phi_C_L2R

@@ -1,0 +1,7 @@
+t,p,mean of the differences,df,Comparison,Paired comparison,Condition
+3.9875210664115,0.000900857975729114,0.243228492723699,12,Variability (CV),Secondary vs. Tertiary,Population
+2.1280246828793,0.0273735887592416,0.164300234276373,12,Variability (CV),Secondary vs. Tertiary,Community
+1.11084402757669,0.144198970089418,0.0740731537197483,12,Variability (CV),Secondary vs. Tertiary,Metacommunity
+-0.0196862501322599,0.492387899479256,-0.00119825466534444,8,Synchrony,Population vs. Community,Primary
+-4.70277932122641,6.06306554913722e-05,-0.201927487671306,21,Synchrony,Population vs. Community,Secondary
+-8.06390626181486,6.24080325202257e-07,-0.301365727256481,14,Synchrony,Population vs. Community,Tertiary
