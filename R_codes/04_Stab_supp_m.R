@@ -13,6 +13,7 @@ library(sf)
 library(spData)        # load geographic data
 library(spDataLarge)   # load larger geographic data
 library(tmap)
+library(nlme)
 
 #===============================
 ## Data preparation
@@ -239,6 +240,7 @@ site.metr1.supp <- site.metr %>%
                                              "Lot_PriCon", "Lot_Prod",
                                              "Len_PriCon", "Len_Prod"))))
 
+
 ps6 <-  site.metr1.supp %>% 
   ggplot(aes(y = New_ecos_tr, x = log(cv_comm_site), fill = New_tr_g)) +
   stat_slab(aes(thickness = stat(pdf*n)), scale = 0.3) +
@@ -252,6 +254,7 @@ ps6 <-  site.metr1.supp %>%
         axis.title = element_text(size = 20),
         legend.position = "none",
         plot.title = element_text(vjust = -8, hjust = 0.025, size = 18))
+#
 #
 
 ps7 <- site.metr1.supp %>% 
@@ -293,8 +296,10 @@ ps6+ps7+ps8
 # (and synchrony) metrics with potential confounding variables 
 # (i.e., # of sites; # of time steps) 
 
-anova(lm(log(meta.metr1.supp$CV_C_R) ~ meta.metr1.supp$Time_step *
-           meta.metr1.supp$New_tr_g))
+p9.lme <- nlme::lme(log(CV_C_R) ~ Time_step * New_tr_g,
+          random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p9.lme)
 
 ps9 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_C_R), x = Time_step)) +
@@ -304,7 +309,7 @@ ps9 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of years") +
   ylab ("Metacommunity variability (Mcv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.89",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.85",
            col = "black", size = 5) +
   ggtitle ("A") +
   theme_classic() +
@@ -319,8 +324,10 @@ ps9 <- meta.metr1.supp %>%
 ps9
 #
 
-anova(lm(log(meta.metr1.supp$CV_C_L) ~ meta.metr1.supp$Time_step *
-           meta.metr1.supp$New_tr_g))
+p10.lme <- nlme::lme(log(CV_C_L) ~ Time_step * New_tr_g,
+                    random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p10.lme)
 
 ps10 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_C_L), x = Time_step)) +
@@ -330,7 +337,7 @@ ps10 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of years") +
   ylab ("Community variability (Ccv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.80",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.73",
            col = "black", size = 5) +
   ggtitle ("B") +
   theme_classic() +
@@ -342,8 +349,11 @@ ps10 <- meta.metr1.supp %>%
 ps10
 #
 
-anova(lm(log(meta.metr1.supp$CV_S_L) ~ meta.metr1.supp$Time_step *
-             meta.metr1.supp$New_tr_g))
+p11.lme <- nlme::lme(log(CV_S_L) ~ Time_step * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p11.lme)
+
 
 ps11 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_S_L), x = Time_step)) +
@@ -353,7 +363,7 @@ ps11 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of years") +
   ylab ("Population variability (Pcv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.78",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.70",
            col = "black", size = 5) +
   ggtitle ("C") +
   theme_classic() +
@@ -367,9 +377,10 @@ ps11
 (ps9 + ps10 + ps11) 
 
 #
+p12.lme <- nlme::lme(log(phi_C_L2R) ~ Time_step * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
 
-anova(lm(log(meta.metr1.supp$phi_C_L2R) ~ meta.metr1.supp$Time_step *
-           meta.metr1.supp$New_tr_g))
+anova(p12.lme)
 
 ps12 <- meta.metr1.supp %>%
   ggplot(aes(y = log(phi_C_L2R), x = Time_step,  color = New_tr_g)) +
@@ -377,7 +388,7 @@ ps12 <- meta.metr1.supp %>%
   ylim (-1.5, 0.15) +
   xlab ("Number of years") +
   ylab ("Community spatial synchrony (Csy)") +
-  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.50",
+  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.39",
            col = "black", size = 5) +
   ggtitle ("D") +
   theme_classic() +
@@ -389,8 +400,10 @@ ps12 <- meta.metr1.supp %>%
 ps12
 #
 
-anova(lm(log(meta.metr1.supp$phi_S2C_L) ~ meta.metr1.supp$Time_step *
-           meta.metr1.supp$New_tr_g))
+p13.lme <- nlme::lme(log(phi_S2C_L) ~ Time_step * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p13.lme)
 
 ps13 <- meta.metr1.supp %>%
   ggplot(aes(y = log(phi_S2C_L), x = Time_step,  color = New_tr_g)) +
@@ -398,7 +411,7 @@ ps13 <- meta.metr1.supp %>%
   ylim (-1.5, 0.15) +
   xlab ("Number of years") +
   ylab ("Local population synchrony (Psy)") +
-  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.10",
+  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.14",
            col = "black", size = 5) +
   ggtitle ("E") +
   theme_classic() +
@@ -415,8 +428,11 @@ ps12+ps13
 
 # Now with number of sites on the x-axis
 
-anova(lm(log(meta.metr1.supp$CV_C_R) ~ meta.metr1.supp$nSites *
-           meta.metr1.supp$New_tr_g))
+p14.lme <- nlme::lme(log(CV_C_R) ~ nSites * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p14.lme)
+
 
 ps14 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_C_R), x = nSites)) +
@@ -426,7 +442,7 @@ ps14 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of sites") +
   ylab ("Metacommunity variability (Mcv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.24",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.29",
            col = "black", size = 5) +
   ggtitle ("A") +
   theme_classic() +
@@ -441,8 +457,10 @@ ps14 <- meta.metr1.supp %>%
 ps14
 #
 
-anova(lm(log(meta.metr1.supp$CV_C_L) ~ meta.metr1.supp$nSites *
-           meta.metr1.supp$New_tr_g))
+p15.lme <- nlme::lme(log(CV_C_L) ~ nSites * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p15.lme)
 
 ps15 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_C_L), x = nSites)) +
@@ -452,7 +470,7 @@ ps15 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of sites") +
   ylab ("Community variability (Ccv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.13",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.19",
            col = "black", size = 5) +
   ggtitle ("B") +
   theme_classic() +
@@ -464,8 +482,11 @@ ps15 <- meta.metr1.supp %>%
 ps15
 #
 
-anova(lm(log(meta.metr1.supp$CV_S_L) ~ meta.metr1.supp$nSites *
-           meta.metr1.supp$New_tr_g))
+p16.lme <- nlme::lme(log(CV_S_L) ~ nSites * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p16.lme)
+
 
 ps16 <- meta.metr1.supp %>%
   ggplot(aes(y = log(CV_S_L), x = nSites)) +
@@ -475,7 +496,7 @@ ps16 <- meta.metr1.supp %>%
   ylim (-2.5, 2.5) +
   xlab ("Number of sites") +
   ylab ("Population variability (Pcv)") +
-  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.33",
+  annotate("text", x = 25, y = -2, label = "p-value (interaction) = 0.37",
            col = "black", size = 5) +
   ggtitle ("C") +
   theme_classic() +
@@ -490,8 +511,11 @@ ps16
 
 #
 
-anova(lm(log(meta.metr1.supp$phi_C_L2R) ~ meta.metr1.supp$nSites *
-           meta.metr1.supp$New_tr_g))
+p17.lme <- nlme::lme(log(phi_C_L2R) ~ nSites * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p17.lme)
+
 
 ps17 <- meta.metr1.supp %>%
   ggplot(aes(y = log(phi_C_L2R), x = nSites)) +
@@ -501,7 +525,7 @@ ps17 <- meta.metr1.supp %>%
   ylim (-1.5, 0.15) +
   xlab ("Number of sites") +
   ylab ("Community spatial synchrony (Csy)") +
-  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.27",
+  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.42",
            col = "black", size = 5) +
   ggtitle ("D") +
   theme_classic() +
@@ -513,8 +537,10 @@ ps17 <- meta.metr1.supp %>%
 ps17
 #
 
-anova(lm(log(meta.metr1.supp$phi_S2C_L) ~ meta.metr1.supp$nSites *
-           meta.metr1.supp$New_tr_g))
+p18.lme <- nlme::lme(log(phi_S2C_L) ~ nSites * New_tr_g,
+                     random=~1|Metacom, data=meta.metr1.supp)
+
+anova(p18.lme)
 
 ps18 <- meta.metr1.supp %>%
   ggplot(aes(y = log(phi_S2C_L), x = nSites,  color = New_tr_g)) +
@@ -522,7 +548,7 @@ ps18 <- meta.metr1.supp %>%
   ylim (-1.5, 0.15) +
   xlab ("Number of sites") +
   ylab ("Local population synchrony (Psy)") +
-  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.18",
+  annotate("text", x = 25, y = -1.25, label = "p-value (interaction) = 0.23",
            col = "black", size = 5) +
   ggtitle ("E") +
   theme_classic() +
