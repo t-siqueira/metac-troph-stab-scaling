@@ -15,10 +15,14 @@ The full set of results, including those made available as supplementary materia
 
 and using the data available in the **Input_data** folder.
 
-This is a collaborative effort and not all authors are allowed to share their raw data. For example, one data set (LEPAS) was not made available due to data sharing policies of The Ohio Division of Wildlife (ODOW). The orginal raw data include the abundance (individual counts, biomass, coverage area) of a given taxon, at a given site, in a given year. See details here https://ecoevorxiv.org/mpf5x
+The original raw data made available include the abundance (individual counts, biomass, coverage area) of a given taxon, at a given site, in a given year. See details here https://ecoevorxiv.org/mpf5x
 
-Thus, here, instead of starting the analyses with raw data, we start with data that has been generated with the code: 01_Dataprep_stability_metrics.R 
-These data include variability and synchrony components estimated using the methods described in Wang et al. (2019 Ecography; doi/10.1111/ecog.04290), diversity metrics (alpha and gamma diversity), and some variables describing the data. 
+However, this is a collaborative effort and not all authors are allowed to share their raw data. One data set (LEPAS), out of 30, was not made available due to data sharing policies of The Ohio Division of Wildlife (ODOW). So, in code "01_Dataprep_stability_metrics.R" all data made available are imported, except the LEPAS data set. For this specific data set, code "01_Dataprep_stability_metrics.R" imports variability and synchrony components estimated using the methods described in Wang et al. (2019 Ecography; doi/10.1111/ecog.04290), diversity metrics (alpha and gamma diversity), and some variables describing the data set.
+
+A protocol for requesting access to the LEPAS data sets can be found here:
+https://ael.osu.edu/researchprojects/lake-erie-plankton-abundance-study-lepas
+
+Dataset owner: Ohio Department of Natural Resources – Division of Wildlife, managed by Jim Hood, Dept. of Evolution, Ecology, and Organismal Biology, The Ohio State University. Email: hood.211@osu.edu
 
 # Reproducibility
 
