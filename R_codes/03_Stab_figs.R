@@ -71,9 +71,9 @@ col_syn_com <- "#798234"
 a1 <- meta.metr.long %>%
   filter (Partition == "CV_S_L" | Partition == "CV_C_L" | Partition == "CV_C_R") %>%
   mutate (Partition = factor(Partition, levels = c("CV_S_L", "CV_C_L", "CV_C_R"))) %>%
-  ggplot(aes(y=Value_part, x=New_tr_g, fill = Partition, color = Partition)) +
+  ggplot(aes(y=Value_part, x=New_tr_g, fill = Partition)) +
   geom_dotplot(alpha = 0.7, binaxis = "y", stackdir = "center", 
-               position = "dodge", dotsize = 3, binwidth = 1/17) +
+               position = "dodge", dotsize = 3, binwidth = 1/17, aes(color = Partition)) +
   geom_violin(trim = F, draw_quantiles = c(0.5), alpha = 0.7, scale = "count",
               bw = 0.2) +
   scale_fill_manual(name = "", 
@@ -83,7 +83,7 @@ a1 <- meta.metr.long %>%
                     labels = c("Population", "Community", "Metacommunity"),
                     values = c(col_pop_cv, col_com_cv, col_meta_cv)) +
   ylab("Variability (CV)") + xlab ("") +
-  ggtitle("A") +
+  ggtitle("(a)") +
   theme_classic() +
   theme(plot.title = element_text(size = 12),
         axis.text.x = element_blank(),
@@ -92,14 +92,28 @@ a1 <- meta.metr.long %>%
         legend.position = c(x=0.8, y=0.95),
         legend.background = element_rect(fill = "white", color = "white"),
         legend.text = element_text(size = 11),
-        legend.key.size = unit(0.75,"line")) 
+        legend.key.size = unit(0.75,"line")) +
+  annotate("text", x=1, y=2.75, label= "a1",
+           col="#798234", size=3.5, parse=TRUE) +
+  annotate("text", x=2, y=3.4, label= "a1",
+           col="#798234", size=3.5, parse=TRUE) +
+  annotate("text", x=1.3, y=1.95, label= "a2",
+           col="#888888", size=3.5, parse=TRUE) +
+  annotate("text", x=2.3, y=3.12, label= "a2",
+           col="#888888", size=3.5, parse=TRUE) +
+  annotate("text", x=3.3, y=1.76, label= "a3",
+           col="#888888", size=3.5, parse=TRUE) +
+  annotate("text", x=4.3, y=1.4, label= "a3",
+           col="#888888", size=3, parse=TRUE)
+  
+  
 
 a2 <- meta.metr.long %>%   
   filter (Partition == "phi_S2C_L" | Partition == "phi_C_L2R") %>%
   mutate (Partition = factor(Partition, levels = c("phi_S2C_L", "phi_C_L2R"))) %>%
-  ggplot(aes(y=Value_part, x=New_tr_g, fill = Partition, color = Partition)) +
+  ggplot(aes(y=Value_part, x=New_tr_g, fill = Partition)) +
   geom_dotplot(alpha = 0.7, binaxis = "y", stackdir = "center", 
-               position = "nudge", dotsize = 3, binwidth = 1/50) +
+               position = "nudge", dotsize = 3, binwidth = 1/50, aes(color = Partition)) +
   geom_split_violin(trim = F, draw_quantiles = c(0.5), alpha = 0.7, 
                     scale = "count") +
   scale_fill_manual(values = c(col_syn_pop, col_syn_com)) +
@@ -108,16 +122,31 @@ a2 <- meta.metr.long %>%
   scale_x_discrete(labels=c("Producers", "Primary", 
                             "Secondary", "Tertiary")) +
   ylim(c(0, 1.25)) +
-  ggtitle("B") +
+  ggtitle("(b)") +
   theme_classic() +
   theme(plot.title = element_text(size = 12),
         axis.text = element_text(size = 12),
         axis.title = element_text(size = 12), 
-        legend.position = "none") 
+        legend.position = "none") +
+  annotate("text", x=1.9, y=1.1, label= "b1",
+           col="#834ba0", size=3.5, parse=TRUE) +
+  annotate("text", x=2.9, y=1.1, label= "b1",
+           col="#834ba0", size=3.5, parse=TRUE) +
+  annotate("text", x=1.25, y=0.9, label= "b2 b3 b4",
+           col="#798234", size=3.5, parse=F) +
+  annotate("text", x=2.1, y=1.1, label= "b2",
+           col="#798234", size=3.5, parse=TRUE) +
+  annotate("text", x=3.2, y=0.9, label= "b3 b5",
+           col="#798234", size=3.5, parse=F) +
+  annotate("text", x=4.2, y=0.75, label= "b4 b5",
+           col="#798234", size=3.5, parse=F)
+ 
+  
+  
 
 a1/a2
 
-ggsave("Output/Fig1.pdf", width=12,height=12, units = "cm")
+ggsave("Output/Fig1.pdf", width=18,height=18, units = "cm")
 
 # Test the differences suggested in the plot
 
@@ -136,16 +165,19 @@ summary(mod.cvs)
 
 t1 <- df.cvs %>%
   filter(Partition == "CV_C_R") %>%
-  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm") #%>% 
+  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm",
+                        detailed = T) #%>% 
   #get_emmeans()
 
 t2 <- df.cvs %>%
   filter(Partition == "CV_C_L") %>%
-  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm")
+  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm",
+                        detailed = T)
 
 t3 <- df.cvs %>%
   filter(Partition == "CV_S_L") %>%
-  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm")
+  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm",
+                        detailed = T)
 
 write.table(x=tibble(bind_rows(t1,t2,t3), 
                      part = rep(c("CV_C_R", "CV_C_L", "CV_S_L"), each = 6)), 
@@ -166,11 +198,13 @@ summary(mod.syn)
 
 t4 <- df.sync %>%
   filter(Partition == "phi_S2C_L") %>%
-  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm") 
+  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm",
+                        detailed = T) 
 
 t5 <- df.sync %>%
   filter(Partition == "phi_C_L2R") %>%
-  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm")
+  rstatix::emmeans_test(log(Value_part) ~ New_tr_g, p.adjust.method = "holm",
+                        detailed = T)
 
 
 write.table(x=tibble(bind_rows(t4,t5), 
@@ -371,24 +405,6 @@ meta.metr.long$New_tr_g <-
                     "Secondary", "Tertiary"))
 #===========================================
 
-# Extract some descriptive stats
-
-meta.metr.long %>% 
-  filter (Partition == "CV_S_L", Mult_tr_g == "sec_ter") %>%
-  select (New_tr_g, Value_part, Metacom) %>% 
-  print(n = 30)
-
-meta.metr.long %>% 
-  filter (Partition == "CV_C_L", Mult_tr_g == "sec_ter") %>%
-  select (New_tr_g, Value_part, Metacom) %>% 
-  print(n = 30)
-
-meta.metr.long %>% 
-  filter (Partition == "CV_C_R", Mult_tr_g == "sec_ter") %>%
-  select (New_tr_g, Value_part, Metacom) %>% 
-  print(n = 30)
-#===========================================
-
 ### Variability
 
 p.all <- meta.metr.long %>%
@@ -399,7 +415,7 @@ p.all <- meta.metr.long %>%
             alpha = .6) +
   scale_linetype_manual(values = c(2,3,1)) +
   ylab("Variability (CV)") + xlab ("Trophic level") +
-  ggtitle("A", subtitle = "Population") +
+  ggtitle("(a)", subtitle = "Population") +
   ylim (0.10,3) + # change this accordingly
   theme_classic() +
   theme(plot.title = element_text(size = 12),
@@ -407,7 +423,11 @@ p.all <- meta.metr.long %>%
         axis.text = element_text(size = 12),
         axis.title = element_text(size = 12), 
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  annotate("text", x=1, y=2.9, label= "a1",
+           col="#834ba0", size=3.5, parse=TRUE) +
+  annotate("text", x=2, y=1.95, label= "a1",
+           col="#834ba0", size=3.5, parse=TRUE) 
 
 # Paired t-tests
 t1 <- t.test (Value_part ~ New_tr_g, 
@@ -415,6 +435,24 @@ t1 <- t.test (Value_part ~ New_tr_g,
                 filter (Partition == "CV_S_L", Mult_tr_g == "sec_ter"), 
               paired = TRUE, 
               alternative = "greater")
+t1$stderr
+
+t1.1 <- t.test (Value_part ~ New_tr_g, 
+              data = meta.metr.long %>%
+                filter (Partition == "CV_S_L", Mult_tr_g == "prim_sec"), 
+              paired = TRUE, 
+              alternative = "greater")
+
+t1.1$stderr
+
+# Just for curiosity, I tried a mixed-effects model and got the same t value
+# Here is the reason:
+# https://medium.com/@marco_laube/the-paired-t-test-and-linear-mixed-models-185a084d7813
+
+#t1.2 <- lme4::lmer(Value_part ~ New_tr_g + (1|Metacom), 
+             #data = meta.metr.long %>%
+               #filter (Partition == "CV_S_L", Mult_tr_g == "sec_ter"))
+#summary(t1.1)
 #
 
 c.all <- meta.metr.long %>%
@@ -435,7 +473,11 @@ c.all <- meta.metr.long %>%
         axis.title = element_text(size = 12),
         axis.line.y = element_blank(),
         axis.ticks.y = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  annotate("text", x=1, y=2.8, label= "a2",
+           col="#798234", size=3.5, parse=TRUE) +
+  annotate("text", x=2, y=1.6, label= "a2",
+           col="#798234", size=3.5, parse=TRUE)
 
 #
 t2 <- t.test (Value_part ~ New_tr_g, 
@@ -443,6 +485,17 @@ t2 <- t.test (Value_part ~ New_tr_g,
                 filter (Partition == "CV_C_L", Mult_tr_g == "sec_ter"), 
               paired = TRUE, 
               alternative = "greater")
+
+t2$stderr
+
+t2.1 <- t.test (Value_part ~ New_tr_g, 
+              data = meta.metr.long %>%
+                filter (Partition == "CV_C_L", Mult_tr_g == "prim_sec"), 
+              paired = TRUE, 
+              alternative = "greater")
+
+t2.1$stderr
+
 #
 
 mc.all <- meta.metr.long %>%
@@ -464,13 +517,31 @@ mc.all <- meta.metr.long %>%
         axis.line.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") +
+  annotate("text", x=1, y=2.5, label= "a3",
+           col="#888888", size=3.5, parse=TRUE) +
+  annotate("text", x=2, y=1.3, label= "a3 a4",
+           col="#888888", size=3.5, parse=F) +
+  annotate("text", x=3, y=0.8, label= "a4",
+           col="#888888", size=3.5, parse=T)
+  
+  
 #
 t3 <- t.test (Value_part ~ New_tr_g, 
               data = meta.metr.long %>%
                 filter (Partition == "CV_C_R", Mult_tr_g == "sec_ter"), 
               paired = TRUE, 
               alternative = "greater")
+
+t3$stderr
+
+t3.1 <- t.test (Value_part ~ New_tr_g, 
+              data = meta.metr.long %>%
+                filter (Partition == "CV_C_R", Mult_tr_g == "prim_sec"), 
+              paired = TRUE, 
+              alternative = "greater")
+
+t3.1$stderr
 #
 
 p.all + c.all + mc.all
@@ -487,7 +558,7 @@ psy.prim <- meta.metr.long %>%
   geom_line(aes(group = Metacom, linetype = Mult_tr_g), color = "darkgrey",
             alpha = .6) +
   ylab("Synchrony") + xlab ("Organizational level") +
-  ggtitle("B", subtitle = "Primary") +
+  ggtitle("(b)", subtitle = "Primary") +
   ylim(c(0, 1.25)) +
   scale_x_discrete(labels=c("Population", "Community")) +
   scale_color_manual(values = c(col_syn_pop, col_syn_com)) +
@@ -498,7 +569,12 @@ psy.prim <- meta.metr.long %>%
         axis.text = element_text(size = 12),
         axis.title = element_text(size = 12),
         axis.title.x = element_blank(),
-        legend.position = "none")
+        legend.position = "none") + 
+  annotate("text", x=1, y=1.1, label= "b1",
+           col="#834ba0", size=3.5, parse=TRUE) +
+  annotate("text", x=2, y=1.1, label= "b1",
+         col="#798234", size=3.5, parse=TRUE)
+  
 #
 # Paired t-test
 t4 <- t.test (Value_part ~ Partition, 
@@ -507,6 +583,8 @@ t4 <- t.test (Value_part ~ Partition,
                 filter (Partition == "phi_S2C_L" | Partition == "phi_C_L2R"), 
               paired = TRUE, 
               alternative = "less")
+
+t4$stderr
 #
 
 psy.sec <- meta.metr.long %>%
@@ -540,6 +618,8 @@ t5 <- t.test (Value_part ~ Partition,
                 filter (Partition == "phi_S2C_L" | Partition == "phi_C_L2R"), 
               paired = TRUE, 
               alternative = "less")
+
+t5$stderr
 #
 
 psy.ter <- meta.metr.long %>%
@@ -574,6 +654,8 @@ t6 <- t.test (Value_part ~ Partition,
                 filter (Partition == "phi_S2C_L" | Partition == "phi_C_L2R"), 
               paired = TRUE, 
               alternative = "less")
+
+t6$stderr
 #
 
 psy.prim + psy.sec + psy.ter
@@ -586,16 +668,20 @@ ggsave("Output/NewFig_2.pdf", width=21,height=18, units = "cm")
 # Table with Paired t-tests results
 
 write.table(x=tibble(bind_rows(
+  c(t1$statistic, p = t1.1$p.value, t1.1$estimate, t1.1$parameter),
   c(t1$statistic, p = t1$p.value, t1$estimate, t1$parameter),
+  c(t1$statistic, p = t2.1$p.value, t2.1$estimate, t2.1$parameter),
   c(t2$statistic, p = t2$p.value, t2$estimate, t2$parameter),
+  c(t1$statistic, p = t3.1$p.value, t3.1$estimate, t3.1$parameter),
   c(t3$statistic, p = t3$p.value, t3$estimate, t3$parameter),
   c(t4$statistic, p = t4$p.value, t4$estimate, t4$parameter),
   c(t5$statistic, p = t5$p.value, t5$estimate, t5$parameter),
   c(t6$statistic, p = t6$p.value, t6$estimate, t6$parameter)),
-  Comparison = c(rep("Variability (CV)", 3), rep("Synchrony", 3)),
-  "Paired comparison" = c(rep("Secondary vs. Tertiary", 3), 
+  Comparison = c(rep("Variability (CV)", 6), rep("Synchrony", 3)),
+  "Paired comparison" = c(rep("Primary vs. Secondary", 3),
+                          rep("Secondary vs. Tertiary", 3), 
                           rep("Population vs. Community", 3)),
-  Condition = c(c("Population", "Community", "Metacommunity"), 
+  Condition = c(rep(c("Population", "Community", "Metacommunity"), 2), 
                 c("Primary", "Secondary", "Tertiary"))), 
   file = "Output/paited_t_tests.csv", sep = ",", 
   quote = FALSE, row.names = F)
